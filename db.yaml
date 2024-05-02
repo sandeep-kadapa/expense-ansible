@@ -3,6 +3,10 @@
   become: yes
   vars:
     login_host: db.vehiclads.com
+  vars_prompt:
+    name: mysql_root_password
+    prompt: please enter the root password
+    private: no
   tasks:
   - name: install mysql server
     ansible.builtin.dnf:
@@ -21,13 +25,17 @@
       - PyMySQL
       - cryptography
       executable: pip3.9  # pip3.11 if python version is 3.11
-      
+
 # check password is already setup
   - name: check the connection to db
     community.mysql.mysql_info:
       login_user: root
-      login_password: Admin@123
+      login_password: "{{mysql_root_password}}"
       login_host: "{{login_host}}"
       filter: version
     ignore_errors: yes
     register: mysql_connection_output
+
+  - name: Setup root password
+    ansible.builtin.command: mysql_secure_installation --set-root-pass {{mysql_root_password}}
+    when: mysql_connection_output.failed is true   # dont use {{}} in when condition
