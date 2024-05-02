@@ -1,0 +1,23 @@
+- name: My SQL DB configuration
+  hosts: db
+  become: yes
+  vars:
+    login_host: db.vehiclads.com
+  tasks:
+  - name: install mysql server
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: present
+
+  - name: start and enable the mysql service
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: check the connection to db
+    community.mysql.mysql_info:
+      login_user: root
+      login_password: Admin@123
+      login_host: "{{login_host}}"
+      ignore_errors: yes
