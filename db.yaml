@@ -14,10 +14,12 @@
       name: mysqld
       state: started
       enabled: yes
-
+# check password is already setup
   - name: check the connection to db
     community.mysql.mysql_info:
       login_user: root
       login_password: Admin@123
       login_host: "{{login_host}}"
+      filter: version
       ignore_errors: yes
+      register: mysql_connection_output
