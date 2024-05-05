@@ -14,9 +14,9 @@
        state: latest
 
     - name: create expense user
-        user: 
-          name: expense
-          state: present
+      ansible.builtin.user: 
+        name: expense
+        state: present
 
     - name: create app directory
         file:
