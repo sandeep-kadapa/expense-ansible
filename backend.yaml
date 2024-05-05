@@ -14,9 +14,10 @@
        state: latest
 
     - name: create expense user
-        user: expense
-        password: "{{ 'Admin@123' }}"
-        state: present
+        user: 
+          name: expense
+          password: "{{ 'Admin@123' }}"
+          state: present
 
     - name: create app directory
         file:
