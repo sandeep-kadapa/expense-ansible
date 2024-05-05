@@ -16,7 +16,6 @@
     - name: create expense user
         user: 
           name: expense
-          password: "{{ 'Admin@123' }}"
           state: present
 
     - name: create app directory
